@@ -4,6 +4,9 @@
 #include "Renderer.h"
 #include "Vector.h"
 #include "Physics.h"
+#include "Time.h"
+#include "GameObject.h"
+#include "Utility.h"
 
 #pragma once
 
@@ -12,6 +15,7 @@ class Game
 
 public:
 	Game(int width, int height);
+	~Game();
 	Game(Game& other) = delete;
 	void operator=(const Game&) = delete;
 
@@ -21,6 +25,11 @@ public:
 
 	//Initialize The Game.
 	bool Initialize();
+
+	/// <summary>
+	/// Sets the Games FPS. if Not already given, value will be unlimited (-1)
+	/// </summary>
+	void SetFPS(float fps);
 
 	//Runs the game loop until the game is over.
 	void RunLoop();
@@ -66,10 +75,14 @@ public:
 
 private:
 
+	void UpdateGameTime();
+
 	void ProcessInput();
 
 	void UpdateGame();
 	
+	void UpdatePaddle(std::list<Physics*>::iterator physicsIter);
+
 	void GenerateOutput();
 
 	void RenderGameObjects();
@@ -86,6 +99,8 @@ private:
 	bool m_IsRunning;
 
 	static int width, height;
+
+	const Uint8* keyboardState;
 
 	std::list<Renderer*> m_staticRenderObjects;
 	std::list<Renderer*> m_dynamicRenderObjects;

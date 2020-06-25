@@ -1,6 +1,7 @@
 #include "Vector.h"
 #include "Renderer.h"
 #include "Physics.h"
+#include "GameObject.h"
 
 #pragma once
 
@@ -26,7 +27,7 @@ public:
 	/// <param name="_height">paddle Height</param>
 	/// <param name="color">Paddle Color</param>
 	/// <returns></returns>
-	Paddle(float xP, float yP, int _width, int _height, Color& color) : Renderer(this, RenderType::Dynamic, color), Physics(this)
+	Paddle(float xP, float yP, int _width, int _height, float _speed, Color& color, GameObject type) : Renderer(this, RenderType::Dynamic, color), Physics(this, type, _speed)
 	{
 		position.x = xP;
 		position.y = yP;
@@ -42,7 +43,7 @@ public:
 
 public:
 	//inherited via Physics
-	virtual void Move(Vector direction, const float& speed) override;
+	virtual void Move(const float& speed) override;
 
 	// Inherited via Renderer
 	virtual SDL_Rect* RenderRectangle() override;

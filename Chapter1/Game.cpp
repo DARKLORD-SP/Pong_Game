@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 //Initializes the pointer to null so that it can initialze during the first call of getInstance;
 Game* Game::m_Instance = nullptr;
@@ -13,6 +14,15 @@ Game::Game(int width = 0, int height = 0)
 	m_IsRunning = true;
 	this->width = width;
 	this->height = height;
+
+	keyboardState = nullptr;
+}
+
+Game::~Game()
+{
+	delete  m_window;
+	delete  m_renderer;
+	delete  keyboardState;
 }
 
 Game* Game::GetInstance(int _width, int _height)
@@ -47,7 +57,7 @@ bool Game::Initialize()
 	else
 		SDL_Log("SDL Initialized!");
 	
-	m_window = SDL_CreateWindow("Pong Game", 100, 100, width, height, SDL_WINDOW_FULLSCREEN);
+	m_window = SDL_CreateWindow("Pong Game", 100, 100, width, height, SDL_WINDOW_ALWAYS_ON_TOP);
 
 	//Window Creation Failed
 	if (!m_window)
@@ -72,6 +82,11 @@ bool Game::Initialize()
 	return true;
 }
 
+void Game::SetFPS(float fps)
+{
+	Time::SetFPS(fps);
+}
+
 /// <summary>
 /// Game Loop until the game has stopped, this function will keep on running.
 /// </summary>
@@ -79,6 +94,7 @@ void Game::RunLoop()
 {
 	while (m_IsRunning) 
 	{
+		UpdateGameTime();
 		ProcessInput();
 		UpdateGame();
 		GenerateOutput();
@@ -102,7 +118,7 @@ void Game::AddDynamicRenderObjects(Renderer* obje)
 }
 
 void Game::RemoveDynamicRenderObjects(Renderer* obje)
-{
+{	
 	std::list<Renderer*>::iterator iter;
 
 	for (iter = m_dynamicRenderObjects.begin(); iter != m_dynamicRenderObjects.end(); ++iter)
@@ -153,6 +169,12 @@ void Game::RemovePhysicsObject(Physics* obj)
 	}
 }
 
+void Game::UpdateGameTime()
+{
+	//Update The Game Time Every Game loop
+	Time::UpdateDeltaTime();
+}
+
 void Game::ProcessInput()
 {
 	SDL_Event event;
@@ -172,22 +194,54 @@ void Game::ProcessInput()
 	}
 
 	//Stores the entire keyboard state in a array
-	const Uint8* state = SDL_GetKeyboardState(NULL);
+	keyboardState = SDL_GetKeyboardState(NULL);
 
 	//checks for the escape keys index state.
-	if (state[SDL_SCANCODE_ESCAPE]) {
+	if (keyboardState[SDL_SCANCODE_ESCAPE]) {
 		m_IsRunning = false;
 	}
-
 }
 
+/// <summary>
+/// Updates the Objects Position in world
+/// </summary>
 void Game::UpdateGame()
 {
 	std::list<Physics*>::iterator physicsIter;
 
 	for (physicsIter = m_physicsObject.begin(); physicsIter != m_physicsObject.end(); physicsIter++)
 	{
-		physicsIter._Ptr->_Myval->Move(Vector(0,1), 0.01f);
+		UpdatePaddle(physicsIter);
+	}
+
+}
+
+void Game::UpdatePaddle(std::list<Physics*>::iterator physicsIter)
+{
+	//Movements for paddle object
+	if (physicsIter._Ptr->_Myval->GetTypeOfObject() == GameObject::Paddle) {
+		//W key is pressed
+		if (keyboardState[SDL_SCANCODE_W])
+			physicsIter._Ptr->_Myval->SetDirection(Vector(0, -1));
+		//S key is Pressed
+		else if (keyboardState[SDL_SCANCODE_S])
+			physicsIter._Ptr->_Myval->SetDirection(Vector(0, 1));
+		else
+			physicsIter._Ptr->_Myval->SetDirection(Vector(0, 0));
+
+		//lerping the Velocity if any key has pressed.
+		if (physicsIter._Ptr->_Myval->GetDirection().x != 0 || physicsIter._Ptr->_Myval->GetDirection().y != 0) {
+			Vector vel = physicsIter._Ptr->_Myval->GetVelocity();
+			vel += Vector(0, Utility::Lerp(vel.y, physicsIter._Ptr->_Myval->GetSpeed(), 0.02f));
+
+			physicsIter._Ptr->_Myval->SetVelocity(vel);
+
+			physicsIter._Ptr->_Myval->Move(physicsIter._Ptr->_Myval->GetVelocity().y * Time::GetDeltaTime());
+		}
+		else {
+			physicsIter._Ptr->_Myval->SetVelocity(Vector(0, 0));
+		}
+
 	}
 }
 

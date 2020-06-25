@@ -7,11 +7,10 @@ Paddle::~Paddle()
 /// <summary>
 /// Moves the Object.
 /// </summary>
-/// <param name="direction">Direction to move on</param>
 /// <param name="speed">Speed of moving</param>
-void Paddle::Move(Vector direction, const float& speed)
+void Paddle::Move( const float& speed)
 {
-    position += direction * speed;
+    position += GetDirection() * speed;
 }
 
 /// <summary>

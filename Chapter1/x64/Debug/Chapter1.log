@@ -1,2 +1,10 @@
 ﻿  Game.cpp
+D:\Game Programming with c++\Pong_Game\Chapter1\Game.cpp(23,18): warning C4150: deletion of pointer to incomplete type 'SDL_Window'; no destructor called
+D:\Game Programming with c++\Simple DirectMedia Layer (SDL)\SDL2-devel-2.0.12-VC\SDL2-2.0.12\include\SDL_video.h(90): message : see declaration of 'SDL_Window'
+D:\Game Programming with c++\Pong_Game\Chapter1\Game.cpp(24,20): warning C4150: deletion of pointer to incomplete type 'SDL_Renderer'; no destructor called
+D:\Game Programming with c++\Simple DirectMedia Layer (SDL)\SDL2-devel-2.0.12-VC\SDL2-2.0.12\include\SDL_render.h(132): message : see declaration of 'SDL_Renderer'
+  Main.cpp
+  Physics.cpp
+  Renderer.cpp
+  Generating Code...
   Chapter1.vcxproj -> D:\Game Programming with c++\Pong_Game\x64\Debug\Chapter1.exe
