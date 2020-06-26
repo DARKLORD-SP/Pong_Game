@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 	bool success = Game::GetInstance(width, height)->Initialize();
 
 	//setting the Games FPS
-	Game::GetInstance()->SetFPS(144);
+	Game::GetInstance()->SetFPS(400);
 	
 	const int wallThickness = 15;
 	Color wallColor(255, 100, 255);
@@ -27,7 +27,12 @@ int main(int argc, char** argv) {
 
 	const int ballSize= 10;
 	Color BallColor(255, 255, 0);
-	Renderer* ball = new Ball(width / 2, height / 2, ballSize, ballSize, height, 400, BallColor, GameObject::Ball, paddle);
+	Renderer* ball_0 = new Ball(width / 2, height / 2, ballSize, ballSize, height, 400, BallColor, GameObject::Ball, paddle);
+
+	Renderer* ball_1 = new Ball(width / 2.2f, height / 2.2f, ballSize, ballSize, height, 300, BallColor, GameObject::Ball, paddle);
+	Renderer* ball_2 = new Ball(width / 1.2f, height / 2.2f, ballSize, ballSize, height, 500, BallColor, GameObject::Ball, paddle);
+	Renderer* ball_3 = new Ball(width / 2.2f, height / 1.5f, ballSize, ballSize, height, 600, BallColor, GameObject::Ball, paddle);
+
 
 	if (success) 
 	{

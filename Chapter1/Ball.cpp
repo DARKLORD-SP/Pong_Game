@@ -3,6 +3,9 @@
 
 Ball::~Ball()
 {
+    Renderer::~Renderer();
+    Physics::~Physics();
+    BoxCollider::~BoxCollider();
 }
 
 /// <summary>
