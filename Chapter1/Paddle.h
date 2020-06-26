@@ -52,9 +52,11 @@ public:
 	// Inherited via Renderer
 	virtual SDL_Rect* RenderRectangle() override;
 
-private:
+public:
 	int width;
 	int height;
+
+private:
 	SDL_Rect m_Paddle;
 
 public:

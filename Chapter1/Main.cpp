@@ -21,11 +21,13 @@ int main(int argc, char** argv) {
 	const int paddleHeight = 100;
 	const int paddleWidth = 15;
 	Color paddleColor(255, 255, 255);
-	Renderer* paddle = new Paddle(10, (height / 2), paddleWidth, paddleHeight, height, 600.0f, paddleColor, GameObject::Paddle);
+	Paddle* paddle = new Paddle(10, (height / 2), paddleWidth, paddleHeight, height, 600.0f, paddleColor, GameObject::Paddle);
+	Renderer* paddleRend = paddle;
+
 
 	const int ballSize= 10;
 	Color BallColor(255, 255, 0);
-	Renderer* ball = new Ball(width / 2, height / 2, ballSize, ballSize, 300.0f, BallColor, GameObject::Ball);
+	Renderer* ball = new Ball(width / 2, height / 2, ballSize, ballSize, height, 400, BallColor, GameObject::Ball, paddle);
 
 	if (success) 
 	{

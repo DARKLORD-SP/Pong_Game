@@ -57,7 +57,7 @@ bool Game::Initialize()
 	else
 		SDL_Log("SDL Initialized!");
 	
-	m_window = SDL_CreateWindow("Pong Game", 100, 100, width, height, SDL_WINDOW_FULLSCREEN);
+	m_window = SDL_CreateWindow("Pong Game", 100, 100, width, height, SDL_WINDOW_ALWAYS_ON_TOP | SDL_WINDOW_FULLSCREEN);
 
 	//Window Creation Failed
 	if (!m_window)
@@ -242,6 +242,17 @@ void Game::UpdatePaddle(std::list<Physics*>::iterator physicsIter)
 			physicsIter._Ptr->_Myval->SetVelocity(Vector(0, 0));
 		}
 
+	}
+	else if (physicsIter._Ptr->_Myval->GetTypeOfObject() == GameObject::Ball) 
+	{
+		Vector direction = physicsIter._Ptr->_Myval->GetDirection();
+		if (direction.x == 0 && direction.y == 0) 
+		{
+			direction = Vector(0.5, -1);
+			physicsIter._Ptr->_Myval->SetDirection(direction);
+		}
+		
+		physicsIter._Ptr->_Myval->Move(physicsIter._Ptr->_Myval->GetSpeed() * Time::GetDeltaTime());
 	}
 }
 

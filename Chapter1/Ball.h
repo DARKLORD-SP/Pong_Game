@@ -2,10 +2,12 @@
 #include"Physics.h"
 #include "Vector.h"
 #include "GameObject.h"
+#include "BoxCollider.h"
+#include "Paddle.h"
 
 #pragma once
 
-class Ball : public Renderer, public Physics
+class Ball : public Renderer, public Physics, public BoxCollider
 {
 	Ball() = delete;
 
@@ -23,7 +25,7 @@ public:
 	/// <param name="_height">Height of the ball</param>
 	/// <param name="color">Color of the ball</param>
 	/// <returns></returns>
-	Ball(float xP, float yP, int _width, int _height, float _speed, Color& color, GameObject type) : Renderer(this, RenderType::Dynamic, color), Physics(this, type, _speed)
+	Ball(float xP, float yP, int _width, int _height, int _windHeight, float _speed, Color& color, GameObject type, const Paddle* paddle) : Renderer(this, RenderType::Dynamic, color), Physics(this, type, _speed), BoxCollider(xP, yP, _width, _height, _windHeight, type, this)
 	{
 		position.x = xP;
 		position.y = yP;
@@ -35,12 +37,15 @@ public:
 		m_Ball.y = (int)position.y;
 		m_Ball.w = width;
 		m_Ball.h = height;
+
+		m_paddle = paddle;
 	}
 
 private:
 	int width;
 	int height;
 	SDL_Rect m_Ball;
+	const Paddle* m_paddle;
 
 public:
 	Vector position;
@@ -50,6 +55,13 @@ public:
 
 	// Inherited via Renderer
 	virtual SDL_Rect* RenderRectangle() override;
+
+	// Inherited via BoxCollider
+	virtual bool CaculateCollisions() override;
+
+private:
+
+	bool ProcessCollisionAgainstWalls(BoxCollider* collider);
 
 };
 
