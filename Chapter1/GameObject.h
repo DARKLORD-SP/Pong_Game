@@ -1,5 +1,6 @@
 #pragma once
 
-enum class GameObject{Paddle, Ball};
+enum class GameObject{Paddle, Ball, Wall};
+
 
 

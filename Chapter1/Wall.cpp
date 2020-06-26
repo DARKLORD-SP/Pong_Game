@@ -19,3 +19,8 @@ const int Wall::GetHeight()
 {
     return height;
 }
+
+bool Wall::CaculateCollisions()
+{
+    return false;
+}

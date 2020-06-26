@@ -1,11 +1,13 @@
 #include "Renderer.h"
+#include "GameObject.h"
+#include "BoxCollider.h"
 
 #pragma once
 
-class Wall : public Renderer
+class Wall : public Renderer, public BoxCollider
 {
 public:
-	Wall(int xP, int yP, int _width, int _height, Color& _color, RenderType typeOfObject) : Renderer(this, typeOfObject, _color)
+	Wall(float xP, float yP, int _width, int _height, int _windHeight ,Color& _color, RenderType typeOfObject, GameObject type) : Renderer(this, typeOfObject, _color), BoxCollider(xP, yP, _width, _height, _windHeight, type, this)
 	{		
 		x = xP;
 		y = yP;
@@ -23,6 +25,9 @@ public:
 	{
 
 	}
+
+	// Inherited via BoxCollider
+	virtual bool CaculateCollisions() override;
 
 	SDL_Rect* Renderer::RenderRectangle() override 
 	{	
@@ -48,6 +53,5 @@ private:
 	int height;
 
 	SDL_Rect m_wall;
-
 };
 
