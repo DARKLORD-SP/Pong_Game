@@ -1,0 +1,9 @@
+﻿  Main.cpp
+D:\Game Programming with c++\Pong_Game\Chapter1\Wall.h(12,7): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Game Programming with c++\Pong_Game\Chapter1\Wall.h(13,7): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating code
+  0 of 270 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Chapter1.vcxproj -> D:\Game Programming with c++\Pong_Game\x64\Release\Chapter1.exe
